@@ -1,4 +1,4 @@
-import { ActionFunction, LinksFunction, LoaderFunction, json } from "@remix-run/node";
+import { ActionFunction, LinksFunction, LoaderFunction, json, redirect } from "@remix-run/node";
 import {
   Form,
   Link,
@@ -25,7 +25,7 @@ export const loader = (async () => {
 
 export const action =(async () => {
     const contact = await createEmptyContact()
-    return json({contact})
+    return redirect(`/contacts/${contact.id}/edit`)
 }) satisfies ActionFunction
 
 export default function App() {
