@@ -71,11 +71,10 @@ export default function App() {
               id='search-form'
               role='search'
               onChange={(event) => {
-                console.log(
-                  '🚀 ~ App ~ event.currentTarget:',
-                  event.currentTarget
-                );
-                submit(event.currentTarget);
+                const isFirstSearch = q ===null;
+                submit(event.currentTarget, {
+                  replace: !isFirstSearch
+                });
               }}
             >
               <input
