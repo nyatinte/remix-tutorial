@@ -15,7 +15,7 @@ type ContactMutation = {
   twitter?: string;
   notes?: string;
   favorite?: boolean;
-};
+}
 
 export type ContactRecord = ContactMutation & {
   id: string;
