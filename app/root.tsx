@@ -20,6 +20,7 @@ import {
 
 import appStylesHref from './app.css';
 import { createEmptyContact, getContacts } from './data';
+import { useEffect } from 'react';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: appStylesHref },
@@ -30,7 +31,7 @@ export const loader = (async ({request}) => {
   const q = url.searchParams.get('q')
   const contacts = await getContacts(q);
 
-  return json({ contacts });
+  return json({ contacts, q });
 }) satisfies LoaderFunction;
 
 export const action = (async () => {
@@ -39,8 +40,15 @@ export const action = (async () => {
 }) satisfies ActionFunction;
 
 export default function App() {
-  const { contacts } = useLoaderData<typeof loader>();
+  const { contacts, q } = useLoaderData<typeof loader>();
   const navigation = useNavigation()
+
+  useEffect(() => {
+    const searchField = document.getElementById('q')
+    if (searchField instanceof HTMLInputElement) {
+      searchField.value = q || ""
+    }
+  }, [q])
 
   return (
     <html lang='en'>
@@ -61,6 +69,7 @@ export default function App() {
                 placeholder='Search'
                 type='search'
                 name='q'
+                defaultValue={q||""}
               />
               <div id='search-spinner' aria-hidden hidden={true} />
             </Form>
